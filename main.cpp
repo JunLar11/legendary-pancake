@@ -13,6 +13,7 @@
 #include<string.h>
 #include<cctype>
 #include<math.h>
+#include <regex>
 
 using namespace std;
 /**
@@ -25,10 +26,10 @@ using namespace std;
 
 //Declaramos las funciones
 
-void capturaEcuaciones(float *matriz, string *literales);//Se encarga de capturar las ecuaciones
+bool capturaEcuaciones(float *matriz, string *literales);//Se encarga de capturar las ecuaciones
 void sacarCoeficientes(string *ecuacion,float *matriz, int *currentElement);//Se encarga de sacar los coeficientes de las ecuaciones
-bool hasNumbers(string *str);
-bool hasSign(string *str);
+bool hasNumbers(string *str);//Se encarga de checar si el substring tiene numeros
+bool hasSign(string *str);//Se encarga de checar si el substring tiene signo
 
 
 
@@ -54,7 +55,17 @@ int main(){
     cout<<"\tEjemplo: 2x+3y-4z=5"<<endl;
     cout<<"\t           -2y+5z=6"<<endl;
     setlocale(LC_CTYPE,"spanish");
-    capturaEcuaciones((float *)matriz, literales);
+    if(!capturaEcuaciones((float *)matriz, literales))//Se reciben los datos
+	{
+		cout<<"Desea volver a empezar? (S/N): ";
+		cin>>salir;
+		if(salir=='s'||salir=='S'){
+			goto inicio;
+		}else{
+			system("pause");
+			return 0;
+		}
+	}
     nColumnas=3;
 	mFilas=3;
 
@@ -206,14 +217,19 @@ int main(){
 	return 0;
 }
 
-void capturaEcuaciones(float *matriz, string *literales){
+bool capturaEcuaciones(float *matriz, string *literales){
     string ecuacion;
+	regex patron(R"([-+]?\d*(\.\d+)?[xyz]?([-+]?\d*(\.\d+)?[xyz]?([-+]?\d*(\.\d+)?[xyz]?)?)?\s*=\s*[-+]?\d*(\.\d+)?)");
     int currentElement=0;
     for(int i=0;i<3;i++){
         getline(cin,ecuacion,'\n');
+		if(!regex_match(ecuacion,patron)){
+			cout<<endl<<"\t\tEcuacion invalida, vuelva a intentarlo"<<endl;
+			return false;
+		}
         sacarCoeficientes(&ecuacion,matriz,&currentElement);
-        cout<<endl;
     }
+	return true;
 }
 
 void sacarCoeficientes(string *ecuacion,float *matriz, int *currentElement){
