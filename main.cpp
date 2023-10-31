@@ -18,7 +18,6 @@ using namespace std;
 /**
  * Funciones necesarias para el programa.
  * º Función para la captura de las ecuaciones.
- * º Función para la extracción de las literales.
  * º Función para la extracción de los coeficientes.
  * º Función principal.
  * Se irán agregando más funciones conforme se vayan necesitando.
@@ -27,7 +26,6 @@ using namespace std;
 //Declaramos las funciones
 
 void capturaEcuaciones(int *matriz, string *literales);//Se encarga de capturar las ecuaciones
-void sacarLiterales(string *ecuacion, string *literales);//Se encarga de sacar los coeficientes de las ecuaciones
 void sacarCoeficientes(string *ecuacion,int *matriz);//Se encarga de sacar los coeficientes de las ecuaciones
 
 
@@ -45,45 +43,13 @@ void capturaEcuaciones(int *matriz, string *literales){
     string ecuacion;
     for(int i=0;i<3;i++){
         getline(cin,ecuacion,'\n');
-        sacarLiterales(&ecuacion,literales);
         sacarCoeficientes(&ecuacion,matriz);
         cout<<"XD";
     }
 }
 
-void sacarLiterales(string *ecuacion,string *literales){
-    int pos=0;
-    bool previousWasLetter=false;
-    for (auto& x : *ecuacion) { 
-        x = tolower(x);
-        if(x!='+' && x!='-' && x!='=' && x!=' ' && x!='\n' && x!='\0' && x!='\r' && x!='\t' && x!='\v' && x!='\f' && x!='\b'&&!isdigit(x)){
-            cout<<x<<endl;
-            (*literales)[pos]+=x;
-            previousWasLetter=true;
-        }else{
-            previousWasLetter=false;
-            pos++;
-        } 
-    }
-    for (auto& x : *ecuacion) { 
-        x = tolower(x);
-        if(x!='+' && x!='-' && x!='=' && x!=' ' && x!='\n' && x!='\0' && x!='\r' && x!='\t' && x!='\v' && x!='\f' && x!='\b'&&!isdigit(x)){
-            cout<<x<<endl;
-            (*literales)[pos]+=x;
-            previousWasLetter=true;
-        }else{
-            previousWasLetter=false;
-            pos++;
-        } 
-    }
-    cout<<*ecuacion<<endl;
-}
-
 void sacarCoeficientes(string *ecuacion,int *matriz){
-    cout<<*ecuacion<<endl;
-    cout<<"xy "<<(*ecuacion).find("x")<<endl;
+    cout<<"x "<<(*ecuacion).find("x")<<endl;
     cout<<"y "<<(*ecuacion).find("y")<<endl;
     cout<<"z "<<(*ecuacion).find("z")<<endl;
-    (*ecuacion).find("y");
-    (*ecuacion).find("z");
 }
